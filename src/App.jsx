@@ -3,12 +3,15 @@ import './App.css';
 import { Routes, Route, Link } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 
+
 // Import halaman-halaman Anda
 import Home from './Pages/Home';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Profil from './Pages/Profil';
 import PesanTiket from './Pages/PesanTiket';
+import ResetPassword from "./Pages/ResetPassword";
+
 
 function App() {
   const { isAuthenticated, user, logout } = useAuth();
@@ -23,9 +26,8 @@ function App() {
         </div>
         <div className="navbar-section navbar-center">
             <Link to="/">Beranda</Link>
-            <a href="#pendakian">Pendakian</a>
+           
             <Link to="/tiket">Tiket</Link>
-            <a href="#paket">Paket</a>
             <a href="#event">Event</a>
             <a href="#berita">Berita</a>
             <a href="#kontak">Kontak</a>
@@ -52,10 +54,18 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/profil" element={<Profil />} />
         <Route path="/tiket" element={<PesanTiket />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+      </Routes>
+      <Routes>
+        <Route path="/admin" element={<Home />} />
+        <Route path="/admin/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/profil" element={<Profil />} />
+        <Route path="/tiket" element={<PesanTiket />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
     </div>
   );
 }
 
 export default App;
-

@@ -189,7 +189,7 @@ const [activeFaqIndex, setActiveFaqIndex] = useState(null);
         </div>
       </section>
 
-      <section id="pendakian" className="section ticket-booking bg-1">
+      {/* <section id="pendakian" className="section ticket-booking bg-1">
         <div className="section-header">
           <h2>Rencana Pendakian</h2>
           <p>Pilih gaya pendakian Gunung Batur yang paling sesuai dengan ritme dan minat Anda.</p>
@@ -208,7 +208,7 @@ const [activeFaqIndex, setActiveFaqIndex] = useState(null);
             </article>
           ))}
         </div>
-      </section>
+      </section> */}
 
       {null}
 
@@ -421,8 +421,8 @@ const [activeFaqIndex, setActiveFaqIndex] = useState(null);
       <a href="https://wa.me/628122688000" className="emergency-button" target="_blank" rel="noreferrer">
         <FaWhatsapp size={24} />
         <div>
-          <span>Hubungi Guide</span>
-          <span>+62 812 2688 000</span>
+          <span>Emergency Contact</span>
+          <span>+62 812 3456 7897</span>
         </div>
       </a>
     </>

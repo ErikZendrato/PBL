@@ -82,7 +82,7 @@ function Login() {
             </button>
 
             <div className="auth-link-text">
-              Forgot Password? <Link to="/register">Click Here</Link>
+              Forgot Password? <Link to="/reset-password">Click Here</Link>
               {/* Link ini akan mengarah ke halaman Register */}
               <Link to="/register" className="auth-link-button green">
                 Create new account
