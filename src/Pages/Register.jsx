@@ -1,58 +1,72 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiUserPlus } from 'react-icons/fi';
+import { FiUserPlus, FiEye, FiEyeOff } from 'react-icons/fi';
+import axios from 'axios';
 import '../App.css';
-
-// Import gambar dari assets
-import baturImage from '../assets/batur.jpg'; 
+import baturImage from '../assets/batur.jpg';
 
 function Register() {
   const [nama, setNama] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false); // 🔒 LOCK SUBMIT
+
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    
-   
-    console.log('Mencoba mendaftar dengan:', { nama, email, password });
 
-    
-   
-    alert('Pendaftaran berhasil! Silakan login.');
-    
-  
-    navigate('/login');
+    // ❌ cegah submit 2x
+    if (loading) return;
+
+    setLoading(true);
+
+    try {
+      await axios.post(
+        'http://127.0.0.1:8000/api/register',
+        {
+          nama,
+          email,
+          password,
+        },
+        {
+          headers: {
+            Accept: 'application/json',
+          },
+        }
+      );
+
+      alert('Registrasi berhasil, silakan login');
+      navigate('/login');
+    } catch (error) {
+      const message =
+        error.response?.data?.message || 'Registrasi gagal';
+      alert(message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="auth-page-container">
       <div className="auth-content-box">
-        
-        {/* Sisi Gambar (Kiri) */}
-        <div 
-          className="auth-image-side" 
-          style={{ backgroundImage: `url(${baturImage})` }}
-        >
-          {/* Sisi ini sengaja dibiarkan kosong untuk menampilkan gambar */}
-        </div>
 
-        {/* Sisi Form (Kanan) */}
+        <div
+          className="auth-image-side"
+          style={{ backgroundImage: `url(${baturImage})` }}
+        />
+
         <div className="auth-form-side">
           <form className="auth-form" onSubmit={handleSubmit}>
-            <div className="auth-icon">
-              <FiUserPlus />
-            </div>
+            <div className="auth-icon"><FiUserPlus /></div>
             <h2>Create a New Account</h2>
 
             <div className="auth-input-group">
-              <label htmlFor="nama">Nama</label>
+              <label>Nama</label>
               <input
-                id="nama"
                 type="text"
                 className="auth-input"
-                placeholder="Nama lengkap Anda" // Placeholder ditambahkan
                 value={nama}
                 onChange={(e) => setNama(e.target.value)}
                 required
@@ -60,35 +74,45 @@ function Register() {
             </div>
 
             <div className="auth-input-group">
-              <label htmlFor="email">Email address</label> {/* Label disesuaikan */}
+              <label>Email</label>
               <input
-                id="email"
                 type="email"
                 className="auth-input"
-                placeholder="Email Anda" // Placeholder ditambahkan
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
 
-            <div className="auth-input-group">
-              <label htmlFor="password">Password</label>
+            <div className="auth-input-group" style={{ position: 'relative' }}>
+              <label>Password</label>
               <input
-                id="password"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 className="auth-input"
-                placeholder="Buat password" // Placeholder ditambahkan
                 value={password}
-                // INI PERBAIKANNYA
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+
+              <span
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: 'absolute',
+                  right: '12px',
+                  top: '44px',
+                  cursor: 'pointer',
+                }}
+              >
+                {showPassword ? <FiEyeOff /> : <FiEye />}
+              </span>
             </div>
 
-            {/* Tombol ini akan berwarna hijau karena kelas 'green' */}
-            <button type="submit" className="auth-button-primary green">
-              Create
+            <button
+              type="submit"
+              className="auth-button-primary green"
+              disabled={loading}
+            >
+              {loading ? 'Processing...' : 'Create'}
             </button>
 
             <div className="auth-link-text">
@@ -103,4 +127,3 @@ function Register() {
 }
 
 export default Register;
-
