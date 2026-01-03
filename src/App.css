@@ -15,7 +15,7 @@
 
 .section.bg-1::before,
 .section.bg-2::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
@@ -27,15 +27,11 @@
 }
 
 .section.bg-1::before {
-  background-image:
-    linear-gradient(180deg, rgba(7, 59, 76, 0.35), rgba(7, 59, 76, 0.15)),
-    url('./assets/batur.jpg');
+  background-image: linear-gradient(180deg, rgba(7, 59, 76, 0.35), rgba(7, 59, 76, 0.15)), url("./assets/batur.jpg");
 }
 
 .section.bg-2::before {
-  background-image:
-    linear-gradient(180deg, rgba(226, 149, 120, 0.35), rgba(7, 59, 76, 0.15)),
-    url('./assets/batur.jpg');
+  background-image: linear-gradient(180deg, rgba(226, 149, 120, 0.35), rgba(7, 59, 76, 0.15)), url("./assets/batur.jpg");
 }
 
 .section-header {
@@ -85,13 +81,13 @@
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.2rem;
-  color: #118AB2;
+  color: #118ab2;
 }
 
 .ticket-card h3 {
   font-size: 1.5rem;
   margin: 0;
-  color: #073B4C;
+  color: #073b4c;
 }
 
 .ticket-meta {
@@ -110,7 +106,7 @@
 .ghost-button {
   border: none;
   background: transparent;
-  color: #118AB2;
+  color: #118ab2;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -122,7 +118,7 @@
 }
 
 .ghost-button:hover {
-  color: #073B4C;
+  color: #073b4c;
   gap: 0.75rem;
 }
 
@@ -149,7 +145,7 @@
   border-radius: 14px;
   border: 1px solid rgba(7, 59, 76, 0.12);
   background: #ffffff;
-  color: #073B4C;
+  color: #073b4c;
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, color 0.2s ease;
@@ -176,7 +172,7 @@
   font-size: 0.7rem;
   letter-spacing: 0.08rem;
   background-color: rgba(7, 59, 76, 0.08);
-  color: #073B4C;
+  color: #073b4c;
 }
 
 .ticket-detail-panel {
@@ -193,7 +189,7 @@
 .ticket-detail-header h3 {
   margin: 0 0 0.75rem 0;
   font-size: 1.8rem;
-  color: #073B4C;
+  color: #073b4c;
 }
 
 .ticket-detail-header p {
@@ -239,7 +235,7 @@
 .ticket-option-header h4 {
   margin: 0;
   font-size: 1.3rem;
-  color: #073B4C;
+  color: #073b4c;
 }
 
 .ticket-price {
@@ -307,14 +303,14 @@
   text-transform: uppercase;
   letter-spacing: 0.18rem;
   font-size: 0.75rem;
-  color: #118AB2;
+  color: #118ab2;
   margin-bottom: 0.75rem;
 }
 
 .stat-value {
   font-size: clamp(2.3rem, 4vw, 2.9rem);
   font-weight: 700;
-  color: #073B4C;
+  color: #073b4c;
   margin: 0;
   display: flex;
   align-items: baseline;
@@ -402,13 +398,13 @@
   gap: 1.5rem;
   font-size: 1rem;
   font-weight: 600;
-  color: #073B4C;
+  color: #073b4c;
   cursor: pointer;
 }
 
 .faq-icon {
   font-size: 1.5rem;
-  color: #118AB2;
+  color: #118ab2;
   line-height: 1;
 }
 
@@ -483,7 +479,7 @@
 
 .booking-section h2 {
   margin: 0 0 0.75rem 0;
-  color: #073B4C;
+  color: #073b4c;
 }
 
 .booking-section-subtitle {
@@ -503,7 +499,7 @@
 
 .booking-date-input:focus {
   outline: none;
-  border-color: #118AB2;
+  border-color: #118ab2;
   box-shadow: 0 0 0 3px rgba(17, 138, 178, 0.15);
 }
 
@@ -551,7 +547,7 @@
 .booking-package-header h3 {
   margin: 0;
   font-size: 1.2rem;
-  color: #073B4C;
+  color: #073b4c;
 }
 
 .booking-package-header span {
@@ -567,7 +563,7 @@
 
 .booking-package-time {
   font-weight: 600;
-  color: #118AB2;
+  color: #118ab2;
 }
 
 .booking-counter {
@@ -582,7 +578,7 @@
   width: 48px;
   height: 48px;
   border: none;
-  background-color: #073B4C;
+  background-color: #073b4c;
   color: #ffffff;
   font-size: 1.25rem;
   cursor: pointer;
@@ -600,7 +596,7 @@
   text-align: center;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #073B4C;
+  color: #073b4c;
 }
 
 .booking-counter input::-webkit-outer-spin-button,
@@ -609,7 +605,7 @@
   margin: 0;
 }
 
-.booking-counter input[type='number'] {
+.booking-counter input[type="number"] {
   -moz-appearance: textfield;
 }
 
@@ -659,7 +655,7 @@
 .booking-addon-header h3 {
   margin: 0;
   font-size: 1.1rem;
-  color: #073B4C;
+  color: #073b4c;
 }
 
 .booking-addon-header span {
@@ -685,7 +681,7 @@
 
 .booking-notes:focus {
   outline: none;
-  border-color: #118AB2;
+  border-color: #118ab2;
   box-shadow: 0 0 0 3px rgba(17, 138, 178, 0.15);
 }
 
@@ -725,7 +721,7 @@
 .booking-total div {
   display: flex;
   justify-content: space-between;
-  color: #073B4C;
+  color: #073b4c;
   font-weight: 600;
 }
 
@@ -789,7 +785,7 @@
   padding: 0.35rem 1.2rem;
   border-radius: 999px;
   background-color: rgba(17, 138, 178, 0.1);
-  color: #118AB2;
+  color: #118ab2;
   font-weight: 600;
   font-size: 0.75rem;
   letter-spacing: 0.1rem;
@@ -799,7 +795,7 @@
 .temple-card h3 {
   margin: 0;
   font-size: 1.6rem;
-  color: #073B4C;
+  color: #073b4c;
 }
 
 .temple-card p {
@@ -831,7 +827,7 @@
 
 .attraction-card h3 {
   margin: 0 0 0.75rem 0;
-  color: #073B4C;
+  color: #073b4c;
 }
 
 .attraction-card p {
@@ -846,7 +842,7 @@
 
 .primary-link,
 .secondary-link {
-  color: #118AB2;
+  color: #118ab2;
   font-weight: 600;
   text-decoration: none;
   border-bottom: 2px solid rgba(17, 138, 178, 0);
@@ -855,7 +851,7 @@
 
 .primary-link:hover,
 .secondary-link:hover {
-  color: #073B4C;
+  color: #073b4c;
   border-bottom-color: rgba(17, 138, 178, 0.6);
 }
 
@@ -901,7 +897,7 @@
 
 .event-item h3 {
   margin: 0 0 0.5rem 0;
-  color: #073B4C;
+  color: #073b4c;
 }
 
 .event-item p {
@@ -912,7 +908,7 @@
 .event-date {
   font-weight: 600;
   font-size: 0.9rem;
-  color: #118AB2;
+  color: #118ab2;
   white-space: nowrap;
 }
 
@@ -940,7 +936,7 @@
   width: 64px;
   height: 64px;
   border-radius: 16px;
-  background-color: #073B4C;
+  background-color: #073b4c;
   color: #ffd166;
   display: flex;
   align-items: center;
@@ -950,7 +946,7 @@
 
 .video-card h3 {
   margin: 0 0 0.35rem 0;
-  color: #073B4C;
+  color: #073b4c;
 }
 
 .video-card p {
@@ -986,14 +982,14 @@
   font-size: 0.75rem;
   letter-spacing: 0.18rem;
   text-transform: uppercase;
-  color: #118AB2;
+  color: #118ab2;
   margin: 0;
 }
 
 .news-card h3 {
   margin: 0;
   font-size: 1.45rem;
-  color: #073B4C;
+  color: #073b4c;
 }
 
 .news-card p {
@@ -1002,7 +998,7 @@
 }
 
 .contact-strip {
-  background: linear-gradient(135deg, #073B4C 0%, #0E7C86 100%);
+  background: linear-gradient(135deg, #073b4c 0%, #0e7c86 100%);
   color: #ffffff;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -1150,21 +1146,15 @@
 /* Reset & Font Dasar */
 body {
   margin: 0;
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* Latar belakang global dengan gambar asset + overlay lembut */
-  background-image:
-    linear-gradient(180deg, rgba(7, 59, 76, 0.35), rgba(7, 59, 76, 0.15)),
-    url('./assets/batur.jpg');
+  background-image: linear-gradient(180deg, rgba(7, 59, 76, 0.35), rgba(7, 59, 76, 0.15)), url("./assets/batur.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
 }
-
-
 
 /* --- STYLING NAVBAR --- */
 .navbar {
@@ -1175,7 +1165,7 @@ body {
 }
 
 .navbar::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(90deg, rgba(138, 201, 38, 0.15), rgba(14, 116, 144, 0.15));
@@ -1269,19 +1259,16 @@ body {
 .nav-links-right a:hover,
 .nav-links-right button:hover {
   background-color: transparent;
-  color: #118AB2;
+  color: #118ab2;
   border-bottom: 2px solid transparent;
 }
-
 
 /* --- STYLING HERO SECTION (BERANDA) --- */
 .hero-section {
   position: relative;
   height: calc(100vh - 60px);
   min-height: 560px;
-  background-image:
-    linear-gradient(120deg, rgba(7, 59, 76, 0.55), rgba(226, 149, 120, 0.35)),
-    url('./assets/batur.jpg');
+  background-image: linear-gradient(120deg, rgba(7, 59, 76, 0.55), rgba(226, 149, 120, 0.35)), url("./assets/batur.jpg");
   background-size: cover;
   background-position: center;
   display: flex;
@@ -1346,7 +1333,7 @@ body {
 
 .primary-button {
   background-color: #ffd166;
-  color: #073B4C;
+  color: #073b4c;
   box-shadow: 0 12px 30px rgba(255, 209, 102, 0.35);
 }
 
@@ -1371,8 +1358,8 @@ body {
   position: fixed;
   bottom: 2rem;
   right: 2rem;
-  background-color: #06d6a0;
-  color: #073B4C;
+  background-color: #e13030;
+  color: #ffffff;
   display: flex;
   align-items: center;
   padding: 0.75rem 1.5rem;
@@ -1413,34 +1400,47 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 60px); 
-  padding: 0; /* <-- PADDING DIHAPUS, INI PENTING */
+  position: fixed; /* lock to viewport so page behind cannot scroll */
+  /* push down a bit so header/nav doesn't overlap the auth icon/title */
+  top: var(--auth-top-offset, 72px);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(100vh - var(--auth-top-offset, 72px));
+  padding: 0;
   box-sizing: border-box;
+  overflow: hidden; /* prevent page scrolling */
+  z-index: 60; /* sit above navbar (navbar z-index:50) */
 }
 
 .auth-content-box {
   display: flex;
-  width: 100%; /* <-- DIUBAH JADI 100% */
-  min-height: calc(100vh - 60px); /* <-- DIBUAT FULL TINGGI */
+  width: 100%;
+  height: 100%; /* ensure the inner box fills the fixed container */
   background-color: #ffffff;
-  /* max-width, border-radius, box-shadow, dll. DIHAPUS */
 }
 
 /* Sisi Gambar (Kiri) */
 .auth-image-side {
   width: 45%; /* Lebar gambar 45% */
+  height: 100%;
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+  flex-shrink: 0;
 }
 
 /* Sisi Form (Kanan) */
 .auth-form-side {
   width: 55%; /* Lebar form 55% */
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 3rem;
   box-sizing: border-box;
+  overflow: auto; /* allow internal scroll only if form content exceeds viewport */
+  -webkit-overflow-scrolling: touch;
 }
 
 .auth-form {
@@ -1456,7 +1456,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #073B4C;
+  color: #073b4c;
   font-size: 2rem;
   margin-bottom: 1.5rem;
   margin-left: auto; /* <-- BARU: LOGO DI TENGAH */
@@ -1495,7 +1495,7 @@ body {
 
 .auth-input:focus {
   outline: none;
-  border-color: #073B4C;
+  border-color: #073b4c;
   box-shadow: 0 0 0 3px rgba(7, 59, 76, 0.1);
 }
 
@@ -1512,10 +1512,10 @@ body {
 }
 
 .auth-button-primary.blue {
-  background-color: #1877F2;
+  background-color: #1877f2;
 }
 .auth-button-primary.green {
-  background-color: #42B72A;
+  background-color: #42b72a;
 }
 
 .auth-button-primary:hover {
@@ -1529,7 +1529,7 @@ body {
 }
 
 .auth-link-button {
-  display: block; 
+  display: block;
   width: 100%;
   padding: 1rem;
   border: none;
@@ -1546,20 +1546,19 @@ body {
 }
 
 .auth-link-button.green {
-  background-color: #42B72A;
+  background-color: #42b72a;
 }
 
 .auth-link-button:hover {
   opacity: 0.9;
 }
 
-
 /* --- STYLING HALAMAN PROFIL --- */
 .profile-page-container {
   display: flex;
   align-items: flex-start; /* Rata atas */
   justify-content: center;
-  min-height: calc(100vh - 60px); 
+  min-height: calc(100vh - 60px);
   padding: 3rem 2rem;
   box-sizing: border-box;
   background-color: #f4f7f6; /* Latar belakang abu-abu */
@@ -1584,7 +1583,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #073B4C;
+  color: #073b4c;
   font-size: 2.5rem;
   margin: 0 auto 1.5rem auto; /* Tengah */
 }
@@ -1605,7 +1604,7 @@ body {
 }
 
 .profile-card p strong {
-  color: #073B4C;
+  color: #073b4c;
 }
 
 .profile-logout-button {
@@ -1617,7 +1616,7 @@ body {
   font-size: 1rem;
   font-weight: 600;
   color: white;
-  background-color: #D90429; /* Merah */
+  background-color: #d90429; /* Merah */
   cursor: pointer;
   transition: opacity 0.3s ease;
   margin-top: 1.5rem;
