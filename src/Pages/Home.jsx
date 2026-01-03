@@ -3,28 +3,54 @@ import '../App.css';
 import { FaWhatsapp, FaArrowRight, FaPhoneAlt, FaEnvelope } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-const hikingPackages = [
+const hikingRoutes = [
   {
-    name: 'Sunrise Summit Trek',
-    duration: '03.30 – 09.00 WITA',
-    description: 'Pendakian favorit untuk menikmati matahari terbit di puncak Gunung Batur bersama guide bersertifikat.',
+    name: 'Jalur Toya Bungkah',
+    category: 'Sunrise Trek',
+    level: 'Pemula – Menengah',
+    duration: '± 2 jam naik',
+    description:
+      'Jalur pendakian paling populer dengan medan landai dan jalur resmi.',
+    experience: [
+      'Sunrise terbaik Gunung Batur',
+      'Panorama Danau Batur',
+      'Jalur aman & ramai',
+    ],
+    mapSrc:
+      'https://www.google.com/maps?q=-8.2420,115.3757&hl=id&z=14&output=embed',
   },
   {
-    name: 'Crater Rim Adventure',
-    duration: '05.30 – 10.30 WITA',
-    description: 'Eksplorasi bibir kawah aktif, nikmati panorama Danau Batur dan formasi lava hitam dari jarak dekat.',
+    name: 'Jalur Pura Jati',
+    category: 'Crater Route',
+    level: 'Menengah',
+    duration: '± 2,5 jam naik',
+    description:
+      'Jalur alternatif menuju bibir kawah dengan panorama kaldera.',
+    experience: [
+      'Bibir kawah aktif',
+      'Edukasi geowisata',
+      'Panorama timur Batur',
+    ],
+    mapSrc:
+      'https://www.google.com/maps?q=-8.2512,115.3865&hl=id&z=14&output=embed',
   },
   {
-    name: 'Kintamani Village Tour',
-    duration: '08.00 – 13.00 WITA',
-    description: 'Paket santai mengunjungi desa-desa adat, kebun kopi, dan spot foto favorit menghadap kaldera.',
-  },
-  {
-    name: 'Overnight Camping Experience',
-    duration: '16.00 – 08.00 WITA',
-    description: 'Rasakan malam berbintang di lereng Gunung Batur lengkap dengan tenda premium dan api unggun.',
+    name: 'Jalur Serongga',
+    category: 'Adventure Trek',
+    level: 'Menengah – Berpengalaman',
+    duration: '± 3 jam naik',
+    description:
+      'Jalur menantang melalui lava hitam, direkomendasikan dengan guide.',
+    experience: [
+      'Lava hitam erupsi 1963',
+      'Trek menantang & sepi',
+      'Petualangan vulkanik',
+    ],
+    mapSrc:
+      'https://www.google.com/maps?q=-8.2595,115.3649&hl=id&z=14&output=embed',
   },
 ];
+
 
 const experienceHighlights = [
   {
@@ -53,32 +79,31 @@ const attractionActivities = [
   { title: 'Sunset Canoe Experience', subtitle: 'Menikmati senja di Danau Batur dengan kano berlampu LED bersama pemandu.' },
 ];
 
-const events = [
-  { name: 'Batur Sunrise Trail Run', date: 'Juni 2025', description: 'Lomba lari lintas alam melintasi jalur pendakian utama Gunung Batur.' },
-  { name: 'Festival Geotourism Batur', date: 'Agustus 2025', description: 'Pameran budaya, kuliner, dan edukasi geowisata di kawasan Geopark Batur.' },
-  { name: 'Mountain Cleanup Day', date: 'Setiap Minggu Ketiga', description: 'Aksi gotong royong membersihkan jalur pendakian bersama komunitas lokal.' },
-];
-
-const videos = [
-  { title: 'Sunrise Above The Clouds', description: 'Kisah pendaki meraih matahari pertama di puncak Gunung Batur.' },
-  { title: 'Jeep Adventure on Black Lava', description: 'Sensasi off-road di hamparan lava hitam pasca erupsi.' },
-  { title: 'Life of Batur Guides', description: 'Cerita para pemandu lokal menjaga tradisi dan keselamatan pendakian.' },
-];
 
 const newsItems = [
-  {
-    title: 'Update Jam Pendakian Musim Kemarau',
-    excerpt: 'Slot keberangkatan dini hari dibuka hingga dua sesi demi kenyamanan wisatawan.',
+{
+    slug: 'jumlah-pendaki-tahun-ini',
+    title: 'Jumlah Pendaki di Tahun Ini',
+    excerpt: 'Total pendaki Gunung Batur tahun ini mencapai 12.845 orang.',
   },
+ 
   {
+    slug: 'panduan-keselamatan-pendakian',
     title: 'Panduan Keselamatan Pendakian Gunung Batur',
     excerpt: 'Tips perlengkapan, kesehatan, dan etika jalur dari komunitas guide Batur.',
+   
   },
   {
-    title: 'Penataan Area Start Desa Toya Bungkah',
-    excerpt: 'Perbaikan jalur masuk serta fasilitas parkir untuk mendukung wisata berkelanjutan.',
+    slug:'prosedur-larangan-dan-etika-pendakian',
+    title: 'Prodedur,larangan dan etika pendakian',
+    excerpt: 'Prodedur,larangan dan etika pendakian',
+    content: `
+      Penataan area start Desa Toya Bungkah dilakukan untuk meningkatkan
+      kenyamanan dan keamanan pendaki.
+    `,
   },
 ];
+
 
 const statsData = [
   { label: 'Sunrise trek terselenggara', value: 540, suffix: '/tahun', description: 'Dipandu komunitas guide resmi dengan standar keselamatan terbaru.' },
@@ -116,6 +141,7 @@ const [activeFaqIndex, setActiveFaqIndex] = useState(null);
   const [statValues, setStatValues] = useState(statsData.map(() => 0));
   const statsRef = useRef(null);
   const numberFormatter = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 1 });
+  const [selectedRoute, setSelectedRoute] = useState(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -175,16 +201,16 @@ const [activeFaqIndex, setActiveFaqIndex] = useState(null);
         <div className="hero-overlay" />
         <div className="hero-content">
           <p className="hero-kicker">Gunung Batur</p>
-          <h1>Sunrise Above the Caldera</h1>
+          <h1>Gunung Batur</h1>
           <p className="hero-subtitle">
             Jelajahi pesona Gunung Batur di jantung Bali: pendakian sunrise, kawah aktif, dan budaya Kintamani
             yang memikat.
           </p>
           <div className="hero-cta">
-            <a href="#pendakian" className="primary-button">
+            <a href="/tiket" className="primary-button">
               Rencanakan Pendakian
             </a>
-            <a href="#paket" className="secondary-button">Jelajahi Area</a>
+            <a href="#maps" className="secondary-button">Jelajahi Area</a>
           </div>
         </div>
       </section>
@@ -212,64 +238,76 @@ const [activeFaqIndex, setActiveFaqIndex] = useState(null);
 
       {null}
 
-      <section id="paket" className="section temple-highlight bg-1">
+    <section id="jalur" className="section hiking-route-section bg-2">
         <div className="section-header">
-          <h2>Zona Gunung Batur</h2>
-          <p>Kenali tiga area utama yang membentuk pengalaman tak terlupakan di kaldera Batur.</p>
+          <h2>Jalur Pendakian Gunung Batur</h2>
+          <p>Pilih jalur sesuai tingkat pengalaman dan panorama favorit.</p>
         </div>
-        <div className="temple-grid">
-          {experienceHighlights.map((spot) => (
-            <article key={spot.name} className="temple-card">
-              <span className="temple-theme">{spot.theme}</span>
-              <h3>{spot.name}</h3>
-              <p>{spot.description}</p>
-              <button className="ghost-button">
-                Lihat Rute
-                <FaArrowRight />
+
+        <div className="route-grid">
+          {hikingRoutes.map((route) => (
+            <article key={route.name} className="route-card">
+              <span className="route-category">{route.category}</span>
+              <h3>{route.name}</h3>
+              <p>{route.description}</p>
+
+              <div className="route-map">
+                <iframe
+                  title={route.name}
+                  src={route.mapSrc}
+                  width="100%"
+                  height="200"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                />
+              </div>
+
+              <button
+                className="ghost-button"
+                onClick={() => setSelectedRoute(route)}
+              >
+                Lihat Detail Rute <FaArrowRight />
               </button>
             </article>
           ))}
         </div>
       </section>
+      
 
-      <section ref={statsRef} className="section stats-highlight bg-2">
-        <div className="section-header">
-          <h2>Kenapa Wisatawan Memilih Batur?</h2>
-          <p>Data operasional selama dua musim terakhir menunjukkan tingginya kepercayaan pada komunitas kami.</p>
-        </div>
-        <div className="stats-grid">
-          {statsData.map((stat, index) => (
-            <article key={stat.label} className="stat-card">
-              <p className="stat-label">{stat.label}</p>
-              <p className="stat-value">
-                {statsVisible ? numberFormatter.format(statValues[index]) : '0'}
-                <span>{stat.suffix}</span>
-              </p>
-              <p className="stat-description">{stat.description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+     {/* ===================== MAP GUNUNG BATUR ===================== */}
+<section id="maps" className="section map-section bg-2">
+  <div className="section-header">
+    <h2>Lokasi Gunung Batur</h2>
+    <p>Kecamatan Kintamani, Kabupaten Bangli – Bali</p>
+  </div>
 
-      <section className="section attractions">
-        <div className="section-header">
-          <h2>Aktivitas Favorit</h2>
-          <p>Lengkapi perjalanan Anda di Kintamani dengan pengalaman tambahan yang autentik.</p>
-        </div>
-        <div className="attraction-grid">
-          {attractionActivities.map((item) => (
-            <article key={item.title} className="attraction-card">
-              <h3>{item.title}</h3>
-              <p>{item.subtitle}</p>
-            </article>
-          ))}
-        </div>
-        <div className="section-footer">
-          <a href="#contact" className="primary-link">
-            Lihat Semua Aktivitas
-          </a>
-        </div>
-      </section>
+  <div className="map-container">
+    <iframe
+      title="Peta Gunung Batur"
+      src="https://www.google.com/maps?q=-8.2420,115.3757&hl=id&z=13&output=embed"
+      width="100%"
+      height="450"
+      style={{ border: 0 }}
+      allowFullScreen=""
+      loading="lazy"
+      referrerPolicy="no-referrer-when-downgrade"
+    />
+  </div>
+
+  <div style={{ textAlign: 'center', marginTop: '20px' }}>
+    <a
+      href="https://www.google.com/maps/place/Gunung+Batur"
+      target="_blank"
+      rel="noreferrer"
+      className="primary-button"
+    >
+      Buka di Google Maps
+    </a>
+  </div>
+</section>
+
+
+      
 
       <section className="section faq-section bg-1" id="faq">
         <div className="faq-grid">
@@ -308,68 +346,33 @@ const [activeFaqIndex, setActiveFaqIndex] = useState(null);
         </div>
       </section>
 
-      <section id="event" className="section events-videos bg-2">
-        <div className="events-block">
-          <div className="section-header">
-            <h2>Kalender Kegiatan</h2>
-            <p>Ikuti event komunitas dan festival Gunung Batur sepanjang tahun.</p>
-          </div>
-          <ul className="event-list">
-            {events.map((event) => (
-              <li key={event.name} className="event-item">
-                <div>
-                  <h3>{event.name}</h3>
-                  <p>{event.description}</p>
-                </div>
-                <span className="event-date">{event.date}</span>
-              </li>
-            ))}
-          </ul>
-          <div className="section-footer">
-            <a href="#contact" className="secondary-link">
-              Lihat Semua Event
-            </a>
-          </div>
-        </div>
+     
 
-        <div className="videos-block">
-          <div className="section-header">
-            <h2>Video Highlight</h2>
-            <p>Rangkuman visual momen terbaik di Gunung Batur dan sekitarnya.</p>
-          </div>
-          <div className="video-list">
-            {videos.map((video) => (
-              <article key={video.title} className="video-card">
-                <div className="video-thumbnail" aria-hidden="true">
-                  ▶
-                </div>
-                <div>
-                  <h3>{video.title}</h3>
-                  <p>{video.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="berita" className="section news-updates bg-1">
+      <section id="Panduan" className="section news-updates bg-1">
         <div className="section-header">
-          <h2>Berita & Tips</h2>
+          <h2>Kondisi,Panduan & Aturan</h2>
           <p>Pembaruan terkini mengenai regulasi, keamanan, dan rekomendasi perjalanan.</p>
         </div>
         <div className="news-grid">
-          {newsItems.map((news) => (
-            <article key={news.title} className="news-card">
-              <p className="news-category">News</p>
-              <h3>{news.title}</h3>
-              <p>{news.excerpt}</p>
-              <button className="ghost-button">
-                Selengkapnya
-                <FaArrowRight />
-              </button>
-            </article>
+         {newsItems.map((news) => (
+        <article key={news.slug} className="news-card">
+         <p className="news-category">News</p>
+
+         <h3>
+           <Link to={`/berita/${news.slug}`} className="news-link">
+            {news.title}
+            </Link>
+             </h3>
+
+            <p>{news.excerpt}</p>
+
+            <Link to={`/berita/${news.slug}`} className="ghost-button">
+             Selengkapnya <FaArrowRight />
+             </Link>
+              </article>
+              
           ))}
+
         </div>
       </section>
 
@@ -413,6 +416,7 @@ const [activeFaqIndex, setActiveFaqIndex] = useState(null);
           </div>
         </div>
       </section>
+      
 
       <footer className="footer">
         <p>© 2025 Komunitas Wisata Gunung Batur. All Rights Reserved.</p>
@@ -425,8 +429,58 @@ const [activeFaqIndex, setActiveFaqIndex] = useState(null);
           <span>+62 812 3456 7897</span>
         </div>
       </a>
+
+       {selectedRoute && (
+        <div
+          className="modal-overlay"
+          onClick={() => setSelectedRoute(null)}
+        >
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2>{selectedRoute.name}</h2>
+            <p className="modal-category">{selectedRoute.category}</p>
+
+            <p>{selectedRoute.description}</p>
+
+            <ul className="route-info">
+              <li><strong>Tingkat:</strong> {selectedRoute.level}</li>
+              <li><strong>Durasi:</strong> {selectedRoute.duration}</li>
+            </ul>
+
+            <h4>Pengalaman yang Didapat</h4>
+            <ul className="experience-list">
+              {selectedRoute.experience.map((item, i) => (
+                <li key={i}>✓ {item}</li>
+              ))}
+            </ul>
+
+            <div className="modal-map">
+              <iframe
+                title={selectedRoute.name}
+                src={selectedRoute.mapSrc}
+                width="100%"
+                height="250"
+                style={{ border: 0 }}
+                loading="lazy"
+              />
+            </div>
+
+            <button
+              className="primary-button"
+              onClick={() => setSelectedRoute(null)}
+            >
+              Tutup
+            </button>
+          </div>
+        </div>
+      )}
+    
+  
     </>
   );
+
 }
 
 export default Home;
