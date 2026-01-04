@@ -121,8 +121,7 @@ function App() {
             <div className="navbar-section navbar-center">
               <Link to="/">Beranda</Link>
               <Link to="/tiket">Tiket</Link>
-              <a href="#event">Event</a>
-              <a href="#berita">Berita</a>
+              <a href="#berita">Panduan</a>
               <a href="#kontak">Kontak</a>
             </div>
             <div className="navbar-section navbar-right">

@@ -348,31 +348,25 @@ const [activeFaqIndex, setActiveFaqIndex] = useState(null);
 
      
 
-      <section id="Panduan" className="section news-updates bg-1">
+      <section id="berita" className="section news-updates bg-1">
         <div className="section-header">
           <h2>Kondisi,Panduan & Aturan</h2>
           <p>Pembaruan terkini mengenai regulasi, keamanan, dan rekomendasi perjalanan.</p>
         </div>
         <div className="news-grid">
-         {newsItems.map((news) => (
-        <article key={news.slug} className="news-card">
-         <p className="news-category">News</p>
-
-         <h3>
-           <Link to={`/berita/${news.slug}`} className="news-link">
-            {news.title}
-            </Link>
-             </h3>
-
-            <p>{news.excerpt}</p>
-
-            <Link to={`/berita/${news.slug}`} className="ghost-button">
-             Selengkapnya <FaArrowRight />
-             </Link>
-              </article>
-              
+          {newsItems.map((news) => (
+            <article key={news.slug} className="news-card">
+              {/* Bungkus konten dengan Link untuk membuat seluruh card bisa diklik */}
+              <Link to={`/berita/${news.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <p className="news-category">News</p>
+                <h3>{news.title}</h3>
+                <p>{news.excerpt}</p>
+                <div className="ghost-button" style={{ display: 'inline-flex', alignItems: 'center', cursor: 'pointer' }}>
+                  Selengkapnya <FaArrowRight style={{ marginLeft: '8px' }} />
+                </div>
+              </Link>
+            </article>
           ))}
-
         </div>
       </section>
 
