@@ -1,36 +1,135 @@
+// import React, { useMemo, useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import '../App.css';
+
+// const services = [
+//   { id: 'transport', name: 'Transport Hotel', price: 150000, type: 'per_trip' },
+//   { id: 'porter', name: 'Porter 15kg', price: 75000, type: 'per_person' },
+//   { id: 'photographer', name: 'Dokumentasi Profesional', price: 200000, type: 'per_trip' },
+// ];
+
+// const equipments = [
+//   { id: 'headlamp', name: 'Headlamp', price: 25000 },
+//   { id: 'jacket', name: 'Jaket Hangat', price: 30000 },
+//   { id: 'sticks', name: 'Trekking Pole', price: 35000 },
+// ];
+
+// const PACKAGE_PRICE = 450000;
+
+// const formatCurrency = (value) =>
+//   new Intl.NumberFormat('id-ID', {
+//     style: 'currency',
+//     currency: 'IDR',
+//     maximumFractionDigits: 0,
+//   }).format(value);
+
+// export default function PesanTiket() {
+//   const navigate = useNavigate();
+//   const [date, setDate] = useState('');
+//   const [pax, setPax] = useState(1);
+//   const [servicesSelected, setServicesSelected] = useState([]);
+//   const [equipmentsSelected, setEquipmentsSelected] = useState([]);
+
+//   const servicesTotal = useMemo(() => {
+//     return servicesSelected.reduce((total, id) => {
+//       const s = services.find((x) => x.id === id);
+//       if (!s) return total;
+//       return s.type === 'per_person' ? total + s.price * pax : total + s.price;
+//     }, 0);
+//   }, [servicesSelected, pax]);
+
+//   const equipmentsTotal = useMemo(() => {
+//     return equipmentsSelected.reduce((total, id) => {
+//       const e = equipments.find((x) => x.id === id);
+//       return e ? total + e.price * pax : total;
+//     }, 0);
+//   }, [equipmentsSelected, pax]);
+
+//   const total = pax * PACKAGE_PRICE + servicesTotal + equipmentsTotal;
+
+//   return (
+//     <div className="booking-modern">
+//       <header className="hero">
+//         <h1>Booking Pendakian Gunung Batur</h1>
+//         <p>Paket Sunrise • Guide Lokal • Aman & Terpercaya</p>
+//       </header>
+
+//       <section className="card">
+//         <h3>📅 Tanggal Pendakian</h3>
+//         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+//       </section>
+
+//       <section className="card">
+//         <h3>👥 Jumlah Pendaki</h3>
+//         <div className="counter">
+//           <button onClick={() => setPax(Math.max(1, pax - 1))}>−</button>
+//           <span>{pax}</span>
+//           <button onClick={() => setPax(pax + 1)}>+</button>
+//         </div>
+//       </section>
+
+//       <section className="card">
+//         <h3>➕ Layanan Tambahan</h3>
+//         {services.map((s) => (
+//           <label key={s.id} className="option">
+//             <input
+//               type="checkbox"
+//               checked={servicesSelected.includes(s.id)}
+//               onChange={() =>
+//                 setServicesSelected((prev) =>
+//                   prev.includes(s.id) ? prev.filter((x) => x !== s.id) : [...prev, s.id],
+//                 )
+//               }
+//             />
+//             {s.name} ({formatCurrency(s.price)})
+//           </label>
+//         ))}
+//       </section>
+
+//       <section className="card">
+//         <h3>🎒 Sewa Peralatan</h3>
+//         {equipments.map((e) => (
+//           <label key={e.id} className="option">
+//             <input
+//               type="checkbox"
+//               checked={equipmentsSelected.includes(e.id)}
+//               onChange={() =>
+//                 setEquipmentsSelected((prev) =>
+//                   prev.includes(e.id) ? prev.filter((x) => x !== e.id) : [...prev, e.id],
+//                 )
+//               }
+//             />
+//             {e.name} ({formatCurrency(e.price)}/pax)
+//           </label>
+//         ))}
+//       </section>
+
+//       <section className="summary-card">
+//         <h2>Total Pembayaran</h2>
+//         <p className="price">{formatCurrency(total)}</p>
+//         <button
+//           className="btn-primary"
+//           disabled={!date}
+//           onClick={() =>
+//             navigate('/invoice', {
+//               state: { date, pax, total },
+//             })
+//           }
+//         >
+//           Lanjut Bayar
+//         </button>
+//       </section>
+//     </div>
+//   );
+// }
+
 import React, { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../App.css';
 
-const trekkingPackages = [
-  {
-    id: 'sunrise',
-    name: 'Sunrise Summit Trek',
-    description: 'Pendakian standar bersama guide komunitas Gunung Batur.',
-    price: 450000,
-    startTime: '03.30 WITA',
-    endTime: '09.00 WITA',
-  },
-  {
-    id: 'jeep',
-    name: 'Jeep Lava Sunrise',
-    description: 'Pengalaman sunrise via jeep 4x4 menuju spot lava hitam.',
-    price: 650000,
-    startTime: '04.15 WITA',
-    endTime: '08.30 WITA',
-  },
-  {
-    id: 'glamping',
-    name: 'Overnight Glamping Trek',
-    description: 'Camping premium, makan malam dan pendakian sunrise private.',
-    price: 1200000,
-    startTime: '16.00 WITA',
-    endTime: '08.00 WITA (hari berikutnya)',
-  },
-];
-
 const services = [
-  { id: 'transport', name: 'Transport Hotel (Ubud/Kintamani)', price: 150000, type: 'per_trip' },
-  { id: 'porter', name: 'Porter Barang 15kg', price: 75000, type: 'per_person' },
+  { id: 'transport', name: 'Transport Hotel', price: 150000, type: 'per_trip' },
+  { id: 'porter', name: 'Porter 15kg', price: 75000, type: 'per_person' },
   { id: 'photographer', name: 'Dokumentasi Profesional', price: 200000, type: 'per_trip' },
 ];
 
@@ -49,308 +148,116 @@ const formatCurrency = (value) =>
     maximumFractionDigits: 0,
   }).format(value);
 
-function PesanTiket() {
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedPackage, setSelectedPackage] = useState(trekkingPackages[0].id);
-  const [ticketCount, setTicketCount] = useState(1);
-  const [selectedServices, setSelectedServices] = useState([]);
-  const [selectedEquipments, setSelectedEquipments] = useState([]);
-  const [notes, setNotes] = useState('');
-
-  const packageData = useMemo(
-    () => trekkingPackages.find((pkg) => pkg.id === selectedPackage) ?? trekkingPackages[0],
-    [selectedPackage],
-  );
-
-  const isDateSelected = Boolean(selectedDate);
-
-  const handleServiceToggle = (id) => {
-    setSelectedServices((prev) =>
-      prev.includes(id) ? prev.filter((serviceId) => serviceId !== id) : [...prev, id],
-    );
-  };
-
-  const handleEquipmentToggle = (id) => {
-    setSelectedEquipments((prev) =>
-      prev.includes(id) ? prev.filter((equipmentId) => equipmentId !== id) : [...prev, id],
-    );
-  };
+export default function PesanTiket() {
+  const navigate = useNavigate();
+  const [date, setDate] = useState('');
+  const [pax, setPax] = useState(1);
+  const [servicesSelected, setServicesSelected] = useState([]);
+  const [equipmentsSelected, setEquipmentsSelected] = useState([]);
 
   const servicesTotal = useMemo(() => {
-    return selectedServices.reduce((total, id) => {
-      const service = services.find((item) => item.id === id);
-      if (!service) return total;
-
-      if (service.type === 'per_person') {
-        return total + service.price * ticketCount;
-      }
-
-      return total + service.price;
+    return servicesSelected.reduce((total, id) => {
+      const s = services.find((x) => x.id === id);
+      if (!s) return total;
+      return s.type === 'per_person' ? total + s.price * pax : total + s.price;
     }, 0);
-  }, [selectedServices, ticketCount]);
+  }, [servicesSelected, pax]);
 
-  const equipmentTotal = useMemo(() => {
-    return selectedEquipments.reduce((total, id) => {
-      const equipment = equipments.find((item) => item.id === id);
-      return equipment ? total + equipment.price * ticketCount : total;
+  const equipmentsTotal = useMemo(() => {
+    return equipmentsSelected.reduce((total, id) => {
+      const e = equipments.find((x) => x.id === id);
+      return e ? total + e.price * pax : total;
     }, 0);
-  }, [selectedEquipments, ticketCount]);
+  }, [equipmentsSelected, pax]);
 
-  const baseTotal = packageData.price * ticketCount;
-  const grandTotal = baseTotal + servicesTotal + equipmentTotal;
+  const total = pax * PACKAGE_PRICE + servicesTotal + equipmentsTotal;
 
-  const canCheckout = isDateSelected && ticketCount > 0;
+  // FUNGSI BARU: Mengirim data lengkap ke Invoice
+  const handleLanjutBayar = () => {
+    const selectedS = services.filter(s => servicesSelected.includes(s.id)).map(s => s.name);
+    const selectedE = equipments.filter(e => equipmentsSelected.includes(e.id)).map(e => e.name);
+    
+    // Gabungkan rincian alat & layanan menjadi string
+    const rincianAlat = [...selectedS, ...selectedE].join(", ") || "-";
 
-  const handleCheckout = (event) => {
-    event.preventDefault();
-    if (!canCheckout) return;
-
-    const orderSummary = {
-      date: selectedDate,
-      package: packageData.name,
-      ticketCount,
-      services: selectedServices.map((id) => services.find((item) => item.id === id)?.name),
-      equipments: selectedEquipments.map((id) => equipments.find((item) => item.id === id)?.name),
-      notes: notes.trim() || '-',
-      total: grandTotal,
-    };
-
-    alert(
-      `Pesanan Anda siap diproses!\n\nTanggal Pendakian: ${orderSummary.date}\nPaket: ${orderSummary.package}\nJumlah Pendaki: ${orderSummary.ticketCount}\n` +
-        `Layanan Tambahan: ${orderSummary.services.length ? orderSummary.services.join(', ') : '-'}\n` +
-        `Peralatan: ${orderSummary.equipments.length ? orderSummary.equipments.join(', ') : '-'}\n` +
-        `Catatan: ${orderSummary.notes}\n\nTotal Pembayaran: ${formatCurrency(orderSummary.total)}\n\nTim kami akan menghubungi Anda melalui WhatsApp untuk konfirmasi.`,
-    );
+    navigate('/invoice', {
+      state: { 
+        date, 
+        pax, 
+        total,
+        alat_mendaki: rincianAlat 
+      },
+    });
   };
 
   return (
-    <div className="booking-page">
-      <div className="booking-hero">
-        <h1>Form Pemesanan Tiket Pendakian</h1>
-        <p>
-          Pilih tanggal pendakian, sesuaikan jumlah peserta, tambahkan layanan atau peralatan yang dibutuhkan,
-          dan selesaikan pemesanan Anda.
-        </p>
-      </div>
+    <div className="booking-modern">
+      <header className="hero">
+        <h1>Booking Pendakian Gunung Batur</h1>
+        <p>Paket Sunrise • Guide Lokal • Aman & Terpercaya</p>
+      </header>
 
-      <form className="booking-form" onSubmit={handleCheckout}>
-        <section className="booking-section bg-1">
-          <h2>1. Pilih Tanggal Pendakian</h2>
-          <p className="booking-section-subtitle">
-            Silakan pilih tanggal keberangkatan. Tahapan berikutnya akan aktif setelah tanggal dipilih.
-          </p>
-          <input
-            type="date"
-            className="booking-date-input"
-            value={selectedDate}
-            onChange={(event) => setSelectedDate(event.target.value)}
-            min={new Date().toISOString().split('T')[0]}
-            required
-          />
-        </section>
+      <section className="card">
+        <h3>📅 Tanggal Pendakian</h3>
+        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+      </section>
 
-        <section className={`booking-section bg-2${isDateSelected ? '' : ' disabled'}`}>
-          <h2>2. Pilih Paket Pendakian</h2>
-          <p className="booking-section-subtitle">
-            Harga tertera untuk setiap pendaki. Detail durasi dan fasilitas akan disesuaikan per paket.
-          </p>
-          <div className="booking-package-grid">
-            {trekkingPackages.map((pkg) => (
-              <label key={pkg.id} className={`booking-package-card${selectedPackage === pkg.id ? ' active' : ''}`}>
-                <input
-                  type="radio"
-                  name="trekkingPackage"
-                  value={pkg.id}
-                  checked={selectedPackage === pkg.id}
-                  onChange={(event) => setSelectedPackage(event.target.value)}
-                  disabled={!isDateSelected}
-                />
-                <div className="booking-package-content">
-                  <div className="booking-package-header">
-                    <h3>{pkg.name}</h3>
-                    <span>{formatCurrency(pkg.price)}/pax</span>
-                  </div>
-                  <p>{pkg.description}</p>
-                  <p className="booking-package-time">
-                    {pkg.startTime} – {pkg.endTime}
-                  </p>
-                </div>
-              </label>
-            ))}
-          </div>
-        </section>
+      <section className="card">
+        <h3>👥 Jumlah Pendaki</h3>
+        <div className="counter">
+          <button onClick={() => setPax(Math.max(1, pax - 1))}>−</button>
+          <span>{pax}</span>
+          <button onClick={() => setPax(pax + 1)}>+</button>
+        </div>
+      </section>
 
-        <section className={`booking-section bg-1${isDateSelected ? '' : ' disabled'}`}>
-          <h2>3. Jumlah Tiket</h2>
-          <p className="booking-section-subtitle">Masukkan jumlah pendaki dalam rombongan Anda.</p>
-          <div className="booking-counter">
-            <button
-              type="button"
-              onClick={() => setTicketCount((count) => Math.max(1, count - 1))}
-              disabled={!isDateSelected || ticketCount <= 1}
-            >
-              –
-            </button>
+      <section className="card">
+        <h3>➕ Layanan Tambahan</h3>
+        {services.map((s) => (
+          <label key={s.id} className="option">
             <input
-              type="number"
-              min={1}
-              value={ticketCount}
-              disabled={!isDateSelected}
-              onChange={(event) => setTicketCount(Math.max(1, Number(event.target.value)))}
+              type="checkbox"
+              checked={servicesSelected.includes(s.id)}
+              onChange={() =>
+                setServicesSelected((prev) =>
+                  prev.includes(s.id) ? prev.filter((x) => x !== s.id) : [...prev, s.id],
+                )
+              }
             />
-            <button
-              type="button"
-              onClick={() => setTicketCount((count) => count + 1)}
-              disabled={!isDateSelected}
-            >
-              +
-            </button>
-          </div>
-        </section>
+            {s.name} ({formatCurrency(s.price)})
+          </label>
+        ))}
+      </section>
 
-        <section className={`booking-section bg-2${isDateSelected ? '' : ' disabled'}`}>
-          <h2>4. Layanan Tambahan</h2>
-          <p className="booking-section-subtitle">
-            Tambahkan layanan opsional untuk kenyamanan dan dokumentasi selama pendakian.
-          </p>
-          <div className="booking-addon-grid">
-            {services.map((service) => {
-              const isChecked = selectedServices.includes(service.id);
-              return (
-                <label key={service.id} className={`booking-addon-card${isChecked ? ' active' : ''}`}>
-                  <input
-                    type="checkbox"
-                    value={service.id}
-                    checked={isChecked}
-                    onChange={() => handleServiceToggle(service.id)}
-                    disabled={!isDateSelected}
-                  />
-                  <div>
-                    <div className="booking-addon-header">
-                      <h3>{service.name}</h3>
-                      <span>
-                        {formatCurrency(service.price)}
-                        {service.type === 'per_person' ? ' /pax' : ' /trip'}
-                      </span>
-                    </div>
-                    <p>{service.type === 'per_person' ? 'Dikenakan per pendaki.' : 'Biaya per rombongan.'}</p>
-                  </div>
-                </label>
-              );
-            })}
-          </div>
-        </section>
+      <section className="card">
+        <h3>🎒 Sewa Peralatan</h3>
+        {equipments.map((e) => (
+          <label key={e.id} className="option">
+            <input
+              type="checkbox"
+              checked={equipmentsSelected.includes(e.id)}
+              onChange={() =>
+                setEquipmentsSelected((prev) =>
+                  prev.includes(e.id) ? prev.filter((x) => x !== e.id) : [...prev, e.id],
+                )
+              }
+            />
+            {e.name} ({formatCurrency(e.price)}/pax)
+          </label>
+        ))}
+      </section>
 
-        <section className={`booking-section bg-1${isDateSelected ? '' : ' disabled'}`}>
-          <h2>5. Sewa Peralatan</h2>
-          <p className="booking-section-subtitle">
-            Pilih peralatan pendakian tambahan. Biaya dihitung per pendaki agar perlengkapan tersedia untuk semua.
-          </p>
-          <div className="booking-addon-grid">
-            {equipments.map((item) => {
-              const isChecked = selectedEquipments.includes(item.id);
-              return (
-                <label key={item.id} className={`booking-addon-card${isChecked ? ' active' : ''}`}>
-                  <input
-                    type="checkbox"
-                    value={item.id}
-                    checked={isChecked}
-                    onChange={() => handleEquipmentToggle(item.id)}
-                    disabled={!isDateSelected}
-                  />
-                  <div>
-                    <div className="booking-addon-header">
-                      <h3>{item.name}</h3>
-                      <span>{formatCurrency(item.price)}/pax</span>
-                    </div>
-                    <p>Peralatan steril dan siap pakai disediakan oleh operator resmi.</p>
-                  </div>
-                </label>
-              );
-            })}
-          </div>
-        </section>
-
-        <section className={`booking-section bg-2${isDateSelected ? '' : ' disabled'}`}>
-          <h2>6. Catatan Tambahan</h2>
-          <p className="booking-section-subtitle">
-            Informasikan kebutuhan khusus (makanan, kesehatan, atau agenda rombongan).
-          </p>
-          <textarea
-            rows={4}
-            className="booking-notes"
-            placeholder="Contoh: peserta memiliki alergi makanan tertentu."
-            value={notes}
-            onChange={(event) => setNotes(event.target.value)}
-            disabled={!isDateSelected}
-          />
-        </section>
-
-        <section className="booking-summary">
-          <div>
-            <h2>Ringkasan Pesanan</h2>
-            <ul>
-              <li>
-                <strong>Tanggal Pendakian:</strong>{' '}
-                {selectedDate ? new Date(selectedDate).toLocaleDateString('id-ID', { dateStyle: 'full' }) : '-'}
-              </li>
-              <li>
-                <strong>Paket:</strong> {packageData.name}
-              </li>
-              <li>
-                <strong>Jumlah Pendaki:</strong> {ticketCount} orang
-              </li>
-              <li>
-                <strong>Layanan Tambahan:</strong>{' '}
-                {selectedServices.length
-                  ? selectedServices
-                      .map((id) => services.find((service) => service.id === id)?.name)
-                      .filter(Boolean)
-                      .join(', ')
-                  : '-'}
-              </li>
-              <li>
-                <strong>Peralatan:</strong>{' '}
-                {selectedEquipments.length
-                  ? selectedEquipments
-                      .map((id) => equipments.find((equipment) => equipment.id === id)?.name)
-                      .filter(Boolean)
-                      .join(', ')
-                  : '-'}
-              </li>
-            </ul>
-          </div>
-          <div className="booking-total">
-            <div>
-              <p>
-                Paket ({ticketCount} x {formatCurrency(packageData.price)})
-              </p>
-              <p>{formatCurrency(baseTotal)}</p>
-            </div>
-            <div>
-              <p>Layanan tambahan</p>
-              <p>{formatCurrency(servicesTotal)}</p>
-            </div>
-            <div>
-              <p>Sewa peralatan</p>
-              <p>{formatCurrency(equipmentTotal)}</p>
-            </div>
-            <hr />
-            <div className="booking-grand-total">
-              <p>Total Pembayaran</p>
-              <p>{formatCurrency(grandTotal)}</p>
-            </div>
-            <button type="submit" className="primary-button checkout-button" disabled={!canCheckout}>
-              Checkout & Konfirmasi
-            </button>
-            {!isDateSelected && (
-              <p className="booking-helper-text">Pilih tanggal pendakian terlebih dahulu untuk melanjutkan pemesanan.</p>
-            )}
-          </div>
-        </section>
-      </form>
+      <section className="summary-card">
+        <h2>Total Pembayaran</h2>
+        <p className="price">{formatCurrency(total)}</p>
+        <button
+          className="btn-primary"
+          disabled={!date}
+          onClick={handleLanjutBayar}
+        >
+          Lanjut Bayar
+        </button>
+      </section>
     </div>
   );
 }
-
-export default PesanTiket;

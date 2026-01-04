@@ -127,6 +127,92 @@
   font-size: 2rem;
 }
 
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  min-height: 180px;
+}
+
+.revenue-card-new {
+  border-left: 6px solid #4c6ef5;
+}
+
+.ticket-card-new {
+  border-left: 6px solid #40c057;
+}
+
+.stat-card-header h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.stat-value-large {
+  font-size: 48px;
+  font-weight: 800;
+  color: #5c7cfa;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.blue-text {
+  color: #748ffc;
+}
+
+.graph-section-new {
+  background: #fff;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.graph-header-new {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* .graph-container-real {
+  background-color: #f8f9ff;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+} */
+
+.graph-container-real {
+  padding: 20px;
+  background: #fdfdfd;
+  border-radius: 12px;
+  border: 1px solid #f0f0f0;
+  margin-top: 15px;
+}
+
+.graph-subtitle {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+.stat-filter {
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 5px 12px;
+  border-radius: 8px;
+  color: #666;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
 .cards-section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));

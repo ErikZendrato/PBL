@@ -473,33 +473,46 @@
 
 // =========================================================================================================
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FiHome, FiShoppingCart, FiLogOut, FiMenu, FiX, FiCheckCircle } from "react-icons/fi";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import "./Admin.css";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
+// --- KOMPONEN TIME FILTER (DITARUH DI LUAR AGAR BISA DIAKSES SEMUA) ---
+const TimeFilter = ({ value, onChange }) => (
+  <select className="stat-filter" value={value} onChange={(e) => onChange(e.target.value)}>
+    <option value="all">All Time</option>
+    <option value="7days">7 Hari</option>
+    <option value="1month">1 Bulan</option>
+    <option value="1year">1 Tahun</option>
+    <optgroup label="Bulan Spesifik">
+      {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((mo, i) => (
+        <option key={i} value={i.toString()}>{mo}</option>
+      ))}
+    </optgroup>
+  </select>
+);
 
 export default function Admin() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, logout } = useAuth(); // Ambil fungsi logout dari context
+  const { user, logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const getCurrentMenu = () => {
-    if (location.pathname.includes("/order")) return "orders";
-    return "dashboard";
-  };
-
-  const activeMenu = getCurrentMenu();
+  // Deteksi menu aktif berdasarkan path
+  const activeMenu = location.pathname.includes("/order") ? "orders" : "dashboard";
 
   const handleLogout = () => {
-    logout(); // Gunakan logout dari context agar state global bersih
+    logout();
     navigate("/");
   };
 
   return (
     <div className="admin-container">
+      {/* SIDEBAR */}
       <div className={`sidebar ${sidebarOpen ? "open" : "closed"}`}>
         <div className="sidebar-header">
           <div className="admin-greeting">
@@ -529,10 +542,13 @@ export default function Admin() {
         </nav>
       </div>
 
+      {/* MAIN CONTENT */}
       <div className="main-content">
         <button className="menu-toggle-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
           <FiMenu />
         </button>
+        
+        {/* Render Komponen */}
         {activeMenu === "dashboard" && <Dashboard />}
         {activeMenu === "orders" && <Orders />}
       </div>
@@ -540,15 +556,119 @@ export default function Admin() {
   );
 }
 
+// --- KOMPONEN DASHBOARD ---
 function Dashboard() {
+  const [orders, setOrders] = useState([]);
+  const [filterPendapatan, setFilterPendapatan] = useState("all");
+  const [filterTiket, setFilterTiket] = useState("all");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        const res = await axios.get("http://localhost:8000/api/admin/pesanan", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setOrders(Array.isArray(res.data) ? res.data : []);
+      } catch (error) {
+        console.error("Gagal memuat data dashboard:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDashboardData();
+  }, []);
+
+  const getFilteredData = (type) => {
+    const now = new Date();
+    return orders.filter(order => {
+      if (order.status !== "success" || !order.tanggal_pesan) return false;
+      if (type === "all") return true;
+
+      const orderDate = new Date(order.tanggal_pesan);
+      if (isNaN(orderDate.getTime())) return false;
+
+      const diffDays = (now - orderDate) / (1000 * 60 * 60 * 24);
+      if (type === "7days") return diffDays <= 7;
+      if (type === "1month") return diffDays <= 30;
+      if (type === "1year") return diffDays <= 365;
+      
+      return orderDate.getMonth() === parseInt(type);
+    });
+  };
+
+  const statsPendapatan = useMemo(() => 
+    getFilteredData(filterPendapatan).reduce((acc, curr) => acc + Number(curr.total_harga || 0), 0)
+  , [orders, filterPendapatan]);
+
+  const statsTiket = useMemo(() => 
+    getFilteredData(filterTiket).reduce((acc, curr) => acc + Number(curr.jumlah_tiket || 0), 0)
+  , [orders, filterTiket]);
+
+  const chartData = useMemo(() => {
+    const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+    const last7Days = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      last7Days.push({
+        dateStr: d.toDateString(),
+        dayName: days[d.getDay()]
+      });
+    }
+
+    return last7Days.map(item => {
+      const count = orders.filter(o => {
+        if (o.status !== "success" || !o.tanggal_pesan) return false;
+        return new Date(o.tanggal_pesan).toDateString() === item.dateStr;
+      }).length;
+      return { name: item.dayName, pendaki: count };
+    });
+  }, [orders]);
+
+  if (loading) return <div style={{padding: "40px"}}>Memuat data dashboard...</div>;
+
   return (
     <div className="dashboard">
-      <h1>Dashboard</h1>
-      <p>Selamat datang di panel admin.</p>
+      <h1 className="dashboard-title">Dashboard</h1>
+      <div className="stats-grid">
+        <div className="stat-card revenue-card-new">
+          <div className="stat-card-header">
+            <h2>Pendapatan</h2>
+            <TimeFilter value={filterPendapatan} onChange={setFilterPendapatan} />
+          </div>
+          <div className="stat-value-large">RP {statsPendapatan.toLocaleString("id-ID")}</div>
+        </div>
+
+        <div className="stat-card ticket-card-new">
+          <div className="stat-card-header">
+            <h2>Pesanan Tiket</h2>
+            <TimeFilter value={filterTiket} onChange={setFilterTiket} />
+          </div>
+          <div className="stat-value-large blue-text">{statsTiket}</div>
+        </div>
+      </div>
+
+      <div className="graph-section-new">
+        <h2>Tren Jumlah Pendaki</h2>
+        <div className="graph-container-real" style={{height: "300px", marginTop: "20px"}}>
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
+              <XAxis dataKey="name" tick={{fontSize: 12, fill: "#999"}} />
+              <YAxis tick={{fontSize: 12, fill: "#999"}} />
+              <Tooltip />
+              <Area type="monotone" dataKey="pendaki" stroke="#82ca9d" fill="#dcfce7" strokeWidth={3} />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
     </div>
   );
 }
 
+// --- KOMPONEN ORDERS ---
 function Orders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -561,37 +681,32 @@ function Orders() {
       const res = await axios.get("http://localhost:8000/api/admin/pesanan", {
         headers: { Authorization: `Bearer ${token}` }
       });
-      
-      const data = Array.isArray(res.data) ? res.data : [];
-      setOrders(data);
-    } catch (error) {
-      console.error("Error API:", error);
+      setOrders(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
+  useEffect(() => { fetchOrders(); }, []);
+
   const handleConfirm = async (id) => {
     if (!window.confirm("Konfirmasi pesanan ini?")) return;
-    
     try {
       const token = localStorage.getItem("authToken");
       await axios.put(`http://localhost:8000/api/admin/pesanan/${id}/konfirmasi`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      alert("Pesanan Berhasil Dikonfirmasi!");
-      fetchOrders(); // Refresh data
-    } catch (error) {
-      alert("Gagal konfirmasi pesanan");
+      alert("Berhasil!");
+      fetchOrders();
+    } catch (err) {
+      alert("Gagal konfirmasi");
     }
   };
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
-  const displayOrders = orders.filter((order) =>
-    order.pengguna?.nama?.toLowerCase().includes(searchQuery.toLowerCase())
+  const displayOrders = orders.filter(o => 
+    o.pengguna?.nama?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -599,20 +714,21 @@ function Orders() {
       <h1>Data Pesanan Masuk</h1>
       <input 
         type="text" 
-        placeholder="Cari nama pemesan..." 
+        className="search-input"
+        placeholder="Cari pemesan..." 
         value={searchQuery} 
         onChange={(e) => setSearchQuery(e.target.value)} 
-        className="search-input" 
       />
       <div className="table-container">
         <table className="orders-table">
           <thead>
             <tr>
               <th>No</th>
-              <th>Pemesanan</th>
+              <th>Nama</th>
               <th>Tgl Kunjungan</th>
               <th>Tiket</th>
-              <th>Alat Mendaki</th>
+              {/* Header Baru */}
+              <th>Alat Mendaki</th> 
               <th>Total</th>
               <th>Status</th>
               <th>Aksi</th>
@@ -620,37 +736,28 @@ function Orders() {
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan="8" style={{textAlign:'center'}}>Memuat data...</td></tr>
-            ) : displayOrders.length === 0 ? (
-              <tr><td colSpan="8" style={{textAlign:'center'}}>Tidak ada pesanan.</td></tr>
-            ) : (
-              displayOrders.map((order, index) => (
-                <tr key={order.id}>
-                  <td>{index + 1}</td>
-                  <td>{order.pengguna?.nama || "-"}</td>
-                  <td>{order.tanggal_pesan}</td>
-                  <td>{order.jumlah_tiket}</td>
-                  <td>{order.alat_mendaki || "-"}</td>
-                  <td>Rp {Number(order.total_harga).toLocaleString("id-ID")}</td>
-                  <td>
-                    <span className={`status-badge ${order.status}`}>
-                      {order.status}
-                    </span>
-                  </td>
-                  <td>
-                    {order.status === 'pending' && (
-                      <button 
-                        className="confirm-btn" 
-                        onClick={() => handleConfirm(order.id)}
-                        title="Konfirmasi Pesanan"
-                      >
-                        <FiCheckCircle /> Konfirmasi
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))
-            )}
+              <tr><td colSpan="8" align="center">Memuat...</td></tr>
+            ) : displayOrders.map((o, i) => (
+              <tr key={o.id}>
+                <td>{i + 1}</td>
+                <td>{o.pengguna?.nama || "-"}</td>
+                <td>{o.tanggal_pesan}</td>
+                <td>{o.jumlah_tiket}</td>
+                {/* Baris yang error tadi diperbaiki di bawah ini */}
+                <td style={{ fontSize: '13px', color: '#666' }}>
+                  {o.alat_mendaki ? o.alat_mendaki : "-"}
+                </td>
+                <td>Rp {Number(o.total_harga).toLocaleString("id-ID")}</td>
+                <td><span className={`status-badge ${o.status}`}>{o.status}</span></td>
+                <td>
+                  {o.status === 'pending' && (
+                    <button className="confirm-btn" onClick={() => handleConfirm(o.id)}>
+                      <FiCheckCircle /> Konfirmasi
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
