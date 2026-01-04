@@ -85,17 +85,22 @@ export default function Invoice() {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // Jika state kosong (misal karena refresh halaman), tampilkan pesan error
   if (!state) {
-    return <button onClick={() => navigate('/')}>Kembali</button>;
+    return (
+      <div style={{ padding: "100px", textAlign: "center", color: "white" }}>
+        <h2>Data tidak ditemukan. Silakan pesan ulang.</h2>
+        <button className="btn-primary" onClick={() => navigate('/tiket')}>Kembali ke Form Tiket</button>
+      </div>
+    );
   }
 
-  // FUNGSI UNTUK SIMPAN KE DATABASE
   const handleKirimBukti = async () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("authToken");
 
-      // Menyesuaikan dengan parameter di PesananController.php -> store()
+      // Payload data pesanan sesuai dengan PesananController.php
       const payload = {
         tanggal_pesan: state.date,
         jumlah_tiket: state.pax,
@@ -103,20 +108,20 @@ export default function Invoice() {
         alat_mendaki: state.alat_mendaki,
       };
 
-      const res = await axios.post("http://localhost:8000/api/pesanan", payload, {
+      const res = await axios.post("http://127.0.0.1:8000/api/pesanan", payload, {
         headers: { 
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // Pastikan token ini ada!
           Accept: 'application/json'
         }
       });
 
       if (res.data.success) {
-        alert("Pesanan berhasil dibuat! Admin akan segera mengecek bukti pembayaran Anda.");
-        navigate('/tiket-saya'); // Arahkan ke halaman riwayat tiket
+        alert("Berhasil! Pesanan Anda telah diterima dan sedang diproses oleh Admin.");
+        navigate('/tiket'); // Atau navigasi ke halaman riwayat pesanan user
       }
     } catch (err) {
-      console.error(err);
-      alert(err.response?.data?.message || "Gagal mengirim pesanan");
+      console.error("Error Detail:", err.response?.data);
+      alert("Gagal mengirim pesanan: " + (err.response?.data?.message || "Koneksi Bermasalah"));
     } finally {
       setLoading(false);
     }
@@ -130,6 +135,7 @@ export default function Invoice() {
       </header>
 
       <section className="card">
+        <h3>Rincian Pesanan</h3>
         <p><strong>Tanggal:</strong> {state.date}</p>
         <p><strong>Jumlah Pendaki:</strong> {state.pax} orang</p>
         <p><strong>Rincian Tambahan:</strong> {state.alat_mendaki}</p>
@@ -138,18 +144,13 @@ export default function Invoice() {
 
       <section className="card">
         <h3>Transfer Pembayaran</h3>
-        <p>Bank BCA</p>
-        <p>No Rekening: <strong>1234567890</strong></p>
+        <p>Bank BCA - 1234567890</p>
         <p>Atas Nama: <strong>Gunung Batur Adventure</strong></p>
       </section>
 
       <section className="card">
         <h3>Upload Bukti Pembayaran</h3>
-        <input 
-          type="file" 
-          accept="image/*" 
-          onChange={(e) => setFile(e.target.files[0])} 
-        />
+        <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} />
         {file && <p className="success">File dipilih: {file.name}</p>}
       </section>
 
@@ -159,7 +160,7 @@ export default function Invoice() {
           disabled={!file || loading}
           onClick={handleKirimBukti}
         >
-          {loading ? "Memproses..." : "Kirim Bukti Pembayaran"}
+          {loading ? "Sedang Mengirim..." : "Kirim Bukti Pembayaran"}
         </button>
       </section>
     </div>
